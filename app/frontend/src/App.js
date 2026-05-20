@@ -6,6 +6,10 @@ function App() {
   const [message, setMessage] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [students, setStudents] = useState([]);
+  const [studentName, setStudentName] = useState('');
+  const [studentEmail, setStudentEmail] = useState('');
+  const [studentRoll, setStudentRoll] = useState('');
 
   const [formData, setFormData] = useState({
     username: '',
@@ -44,14 +48,98 @@ function App() {
     if (data.message) setIsLogin(true);
   };
 
+  const addStudent = () => {
+    if (!studentName || !studentEmail || !studentRoll) {
+      alert('Please fill all fields!');
+      return;
+    }
+    const newStudent = {
+      id: Date.now(),
+      name: studentName,
+      email: studentEmail,
+      roll: studentRoll
+    };
+    setStudents([...students, newStudent]);
+    setStudentName('');
+    setStudentEmail('');
+    setStudentRoll('');
+  };
+
+  const deleteStudent = (id) => {
+    setStudents(students.filter(s => s.id !== id));
+  };
+
   if (loggedIn) {
     return (
-      <div className="container">
-        <div className="card">
-          <h2>🎉 Welcome, {username}!</h2>
-          <p>You are successfully logged in.</p>
-          <p>BSE-8B DevOps Final Project ✅</p>
-          <button onClick={() => setLoggedIn(false)}>Logout</button>
+      <div className="dashboard">
+        <div className="navbar">
+          <h2>🎓 Student Management System</h2>
+          <div>
+            <span>Welcome, {username}! </span>
+            <button className="logout-btn" onClick={() => setLoggedIn(false)}>Logout</button>
+          </div>
+        </div>
+
+        <div className="dashboard-content">
+          {/* Add Student Form */}
+          <div className="card">
+            <h3>➕ Add Student</h3>
+            <input
+              type="text"
+              placeholder="Student Name"
+              value={studentName}
+              onChange={(e) => setStudentName(e.target.value)}
+            />
+            <input
+              type="email"
+              placeholder="Student Email"
+              value={studentEmail}
+              onChange={(e) => setStudentEmail(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Roll Number"
+              value={studentRoll}
+              onChange={(e) => setStudentRoll(e.target.value)}
+            />
+            <button onClick={addStudent}>Add Student</button>
+          </div>
+
+          {/* Student List */}
+          <div className="card">
+            <h3>📋 Student List ({students.length})</h3>
+            {students.length === 0 ? (
+              <p className="no-data">No students added yet!</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {students.map(student => (
+                    <tr key={student.id}>
+                      <td>{student.roll}</td>
+                      <td>{student.name}</td>
+                      <td>{student.email}</td>
+                      <td>
+                        <button
+                          className="delete-btn"
+                          onClick={() => deleteStudent(student.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -60,9 +148,8 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h1>🚀 DevOps Project</h1>
+        <h1>🎓 Student MS</h1>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
-
         {!isLogin && (
           <input
             type="text"
@@ -83,13 +170,10 @@ function App() {
           placeholder="Password"
           onChange={handleChange}
         />
-
         {message && <p className="message">{message}</p>}
-
         <button onClick={isLogin ? handleLogin : handleRegister}>
           {isLogin ? 'Login' : 'Register'}
         </button>
-
         <p onClick={() => setIsLogin(!isLogin)} className="toggle">
           {isLogin ? 'No account? Register here' : 'Have account? Login here'}
         </p>

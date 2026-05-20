@@ -22,7 +22,7 @@ function App() {
   };
 
   const handleLogin = async () => {
-    const res = await fetch('http://localhost:5000/api/login', {
+    const res = await fetch('http://32.196.240.94:5000/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: formData.email, password: formData.password })
@@ -38,7 +38,7 @@ function App() {
   };
 
   const handleRegister = async () => {
-    const res = await fetch('http://localhost:5000/api/register', {
+    const res = await fetch('http://32.196.240.94:5000/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -148,7 +148,7 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h1>🎓 Student MS</h1>
+        <h1>Student Registration </h1>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         {!isLogin && (
           <input

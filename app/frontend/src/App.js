@@ -212,7 +212,7 @@ function App() {
           {isLogin ? 'Login' : 'Register'}
         </button>
         <p onClick={() => setIsLogin(!isLogin)} className="toggle">
-          {isLogin ? 'No account? Register' : 'Have account? Login'}
+          {isLogin ? 'No account?Register' : 'Have account?Login'}
         </p>
       </div>
     </div>

@@ -90,7 +90,14 @@ app.post('/api/login', (req, res) => {
     }
   );
 });
-
+app.get('/api/users', (req, res) => {
+  db.query('SELECT id, username, email FROM users', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+});
 app.listen(5000, () => {
   console.log('Backend running on port 5000');
 });

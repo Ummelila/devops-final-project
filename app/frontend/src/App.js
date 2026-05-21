@@ -22,7 +22,7 @@ function App() {
   };
 
   const handleLogin = async () => {
-    const res = await fetch('http://32.196.240.94:5000/api/login', {
+    const res = await fetch('http://100.27.171.43:5000/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: formData.email, password: formData.password })
@@ -38,7 +38,7 @@ function App() {
   };
 
   const handleRegister = async () => {
-    const res = await fetch('http://32.196.240.94:5000/api/register', {
+    const res = await fetch('http://100.27.171.43:5000/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)

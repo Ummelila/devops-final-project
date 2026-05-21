@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+
+const API = 'http://100.27.171.43:5000';
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -7,6 +9,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [students, setStudents] = useState([]);
+  const [users, setUsers] = useState([]);
   const [studentName, setStudentName] = useState('');
   const [studentEmail, setStudentEmail] = useState('');
   const [studentRoll, setStudentRoll] = useState('');
@@ -21,8 +24,18 @@ function App() {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
+  const fetchUsers = async () => {
+    const res = await fetch(`${API}/api/users`);
+    const data = await res.json();
+    setUsers(data);
+  };
+
+  useEffect(() => {
+    if (loggedIn) fetchUsers();
+  }, [loggedIn]);
+
   const handleLogin = async () => {
-    const res = await fetch('http://100.27.171.43:5000/api/login', {
+    const res = await fetch(`${API}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: formData.email, password: formData.password })
@@ -38,7 +51,7 @@ function App() {
   };
 
   const handleRegister = async () => {
-    const res = await fetch('http://100.27.171.43:5000/api/register', {
+    const res = await fetch(`${API}/api/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -127,13 +140,37 @@ function App() {
                       <td>{student.name}</td>
                       <td>{student.email}</td>
                       <td>
-                        <button
-                          className="delete-btn"
-                          onClick={() => deleteStudent(student.id)}
-                        >
-                          Delete
-                        </button>
+                        <button className="delete-btn" onClick={() => deleteStudent(student.id)}>Delete</button>
                       </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+
+        {/* Registered Users */}
+        <div className="users-section">
+          <div className="card">
+            <h3>👥 Registered Users ({users.length})</h3>
+            {users.length === 0 ? (
+              <p className="no-data">No users registered yet!</p>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map(user => (
+                    <tr key={user.id}>
+                      <td>{user.id}</td>
+                      <td>{user.username}</td>
+                      <td>{user.email}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -148,7 +185,7 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h1>Student Registration Form </h1>
+        <h1>Student Registration Form</h1>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         {!isLogin && (
           <input

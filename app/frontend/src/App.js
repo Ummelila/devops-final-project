@@ -185,7 +185,7 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h1>Student Registration Form</h1>
+        <h1>Student Registration</h1>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         {!isLogin && (
           <input

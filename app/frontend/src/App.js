@@ -185,7 +185,7 @@ function App() {
   return (
     <div className="container">
       <div className="card">
-        <h1>Student Registration</h1>
+        <h1>STUDENT REGISTERATION</h1>
         <h2>{isLogin ? 'Login' : 'Register'}</h2>
         {!isLogin && (
           <input
@@ -212,7 +212,7 @@ function App() {
           {isLogin ? 'Login' : 'Register'}
         </button>
         <p onClick={() => setIsLogin(!isLogin)} className="toggle">
-          {isLogin ? 'No account?Register' : 'Have account?Login'}
+          {isLogin ? 'No account? Register' : 'Have account? Login'}
         </p>
       </div>
     </div>
